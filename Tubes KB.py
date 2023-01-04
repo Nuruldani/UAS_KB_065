@@ -1,48 +1,14 @@
-# -- coding: utf-8 --
-
 import os
 
-# uploaded = files.upload()
-# 
-# for fn in uploaded.keys():
-#     print('User uploaded file "{name}"'.format(
-#         name=fn))
 
-# Informasi Dataset:
-#
-# Jenis | Keterangan
-# --- | ---
-# Title | Flowers Recognition
-# Source | [Kaggle](https://www.kaggle.com/alxmamaev/flowers-recognition)
-# Owner | [Alexander Mamaev](https://www.kaggle.com/alxmamaev)
-# License | Unknown
-# Visibility | Public
-# Tags | image data, multiclass classification, plants
-# Usability | 6.3
-# Type | Image
-"""
-
-# melakukan ekstraksi pada file rar
-import zipfile
-
-local_zip = 'flowers-recognition.zip'
-zip_ref = zipfile.ZipFile(local_zip, 'r')
-zip_ref.extractall('/content/flowers-recognition/')
-zip_ref.close()
-
-"""## Data Understanding
-
-# Untuk memahami dataset berupa gambar, saya mendefinisikan terlebih dahulu direktori datasetnya ke dalam sebuah variabel. Selanjutnya tiap kelas atau label yang tersedia dapat diketahui dengan memanggil `os.listdir`
-# """
-
-# Mendefinisikan direktori utama dataset
-base_dir = 'D:\nunu'
+# Directori utama dataset
+base_dir = 'nunu\Datasetnunu'
 
 print(os.listdir(base_dir))
 
-"""Untuk mengetahui jumlah file yang ada, dapat menggunakan fungsi `len()` pada tiap direktori label dan menjumlahkannya. Untuk memudahkan pembacaan data dapat juga divisualisasikan menggunakan bantuan library `matplotlib`."""
 
-# Menghitung jumlah gambar pada dataset
+
+# Menghitung jumlah gambar dalam dataset
 number_label = {}
 total_files = 0
 for i in os.listdir(base_dir):
@@ -60,7 +26,7 @@ plt.title("Jumlah Gambar Tiap Label");
 plt.xlabel('Label');
 plt.ylabel('Jumlah Gambar');
 
-"""Dari diagram batang di atas dapat diketahui bahwa gambar yang ada pada setiap label memiliki jumlah yang berbeda-beda. Semua label memiliki jumlah lebih dari 700 gambar. Jumlah gambar paling banyak ada pada bunga Dandelion, sedangkan yang paling sedikit adalah bunga matahari (Sunflower). Namun perbedaan jumlah gambar tidak terlalu jauh dan tidak perlu diseimbangkan."""
+
 
 # Menampilkan sampel gambar tiap kelas
 import matplotlib.image as mpimg
@@ -82,12 +48,6 @@ for i in img_samples:
     plt.imshow(img)
     plt.show()
 
-"""Dari beberapa gambar di atas dapat diketahui bahwa gambar yang tersedia pada dataset ini memiliki ukuran yang berbeda-beda.
-
-## Data Preparation
-
-Setelah memahami data, selanjutnya adalah mempersiapkan data sebelum nantinya masuk ke modelling. Penyiapan ini termasuk didalamnya adalah pembagian data (split) menjadi data latih dan validasi. Pembagian data ini diperlukan sebelum nantinya digunakan untuk melatih model yang dibuat serta menghitung akurasi modelnya.
-"""
 
 IMAGE_SIZE = (200, 200)
 BATCH_SIZE = 32
@@ -97,7 +57,7 @@ SEED = 999
 import tensorflow as tf
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-    validation_split=0.2
+    validation_split=0.3
 )
 
 # Menyiapkan data train dan data validation
@@ -119,10 +79,6 @@ valid_data = datagen.flow_from_directory(
     seed=SEED
 )
 
-"""Selain membagi data, akan diterapkan juga image augmentation. Hal ini diterapkan berdasarkan data gambar yang telah ditampilkan sebelumnya. Image augmentation yang dilakukan
- di sini menggunakan layer RandomFlip, RandomRotation, RandomZoom serta Rescaling pada gambar.
-"""
-
 # Image Augmentation
 data_augmentation = tf.keras.Sequential(
     [
@@ -136,12 +92,6 @@ data_augmentation = tf.keras.Sequential(
     ]
 )
 
-"""## Modelling
-
-### Membuat Arsitektur CNN
-
-#### Penyusunan Layer
-"""
 
 # Membuat arsitektur model CNN
 cnn_model = tf.keras.models.Sequential([
